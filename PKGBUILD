@@ -4,7 +4,7 @@
 
 pkgname=prometheus
 pkgver=2.2.1
-pkgrel=3
+pkgrel=4
 pkgdesc="An open-source service monitoring system and time series database."
 arch=('i686' 'x86_64')
 url="http://$pkgname.io"
@@ -60,6 +60,7 @@ package() {
 
     install -dm755 "$pkgdir/usr/lib/systemd/system"
     install -m644 "$srcdir/prometheus.service" "$pkgdir/usr/lib/systemd/system/prometheus.service"
+    install -Dm644 "$srcdir/prometheus.sysusers" "$pkgdir/usr/lib/sysusers.d/prometheus.conf"
 
     install -dm755 "$pkgdir/usr/share/doc/prometheus/examples"
     cp -R "$srcdir/$pkgname-$pkgver/consoles" "$pkgdir/usr/share/doc/prometheus/examples"
