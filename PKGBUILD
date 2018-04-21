@@ -13,10 +13,11 @@ depends=('glibc')
 makedepends=('go' 'git')
 backup=("etc/$pkgname/$pkgname.yml")
 source=("https://github.com/$pkgname/$pkgname/archive/v$pkgver.tar.gz"
-        "${pkgname}.service" "${pkgname}.sysusers")
+        "${pkgname}.service" "${pkgname}.sysusers" "${pkgname}.tmpfiles")
 sha256sums=('4f75427449bb72d1886f6cd46f752fe6300242da48b8bb870dbbd7ffc879ed92'
             'c38a5ea7b0fbab32d391102a915b73bad98eabf7e18dab3c4c3945f46951c203'
-            '1ccc0cb5bcd94c5b6cafe795f7bdcc411c4bcc2ef8bd84a7683a604136c609e4')
+            '1ccc0cb5bcd94c5b6cafe795f7bdcc411c4bcc2ef8bd84a7683a604136c609e4'
+	    '73f3caaaf9d60dd02bc69fb9c2362fb2f2e7cd45ed6fa40a1b80f8badf789c3b')
 
 prepare() {
     cd "$srcdir/$pkgname-$pkgver" || exit 1
@@ -61,6 +62,7 @@ package() {
     install -dm755 "$pkgdir/usr/lib/systemd/system"
     install -m644 "$srcdir/prometheus.service" "$pkgdir/usr/lib/systemd/system/prometheus.service"
     install -Dm644 "$srcdir/prometheus.sysusers" "$pkgdir/usr/lib/sysusers.d/prometheus.conf"
+    install -Dm644 "$srcdir/prometheus.tmpfiles" "$pkgdir/usr/lib/tmpfiles.d/prometheus.conf"
 
     install -dm755 "$pkgdir/usr/share/doc/prometheus/examples"
     cp -R "$srcdir/$pkgname-$pkgver/consoles" "$pkgdir/usr/share/doc/prometheus/examples"
